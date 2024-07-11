@@ -7,6 +7,10 @@ from .models import *
 def home(request):
     return render(request,"home.html")
 
+def view_recipe(request,id):
+    recipe = Recipe.objects.get(pk=id)
+    return render(request,'recipe.html', context={'recipe':recipe})
+
 def show_all_recipes(request):
     queryset = Recipe.objects.all()
     return render(request,'all_recipes.html', context={'recipes':queryset})

@@ -19,7 +19,7 @@
             <img class="card-img-top" src="/media/{{recipe.recipe_image}}" style="height:200px" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">{{recipe.recipe_name}}</h5>
-              <a href="#" class="btn btn-primary">View</a>
+              <a href="{% url 'view_recipe' recipe.id %}" class="btn btn-primary">View</a>
             </div>
           </div>
         </div>

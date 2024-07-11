@@ -1,0 +1,19 @@
+{% extends "master\template.html" %}
+
+<!-- start block -->
+{% block myblock %}
+
+<div class="container">
+    <h2 class="text-center">Recipe Details</h2>
+    <div class="card mb-3 max-auto">
+        <img class="card-img-top" src="/media/{{recipe.recipe_image}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{recipe.recipe_name}}</h5>
+          <p class="card-text">{{recipe.description}}</p>
+        </div>
+      </div>
+</div>
+
+
+{% endblock  %}
+<!-- end block -->

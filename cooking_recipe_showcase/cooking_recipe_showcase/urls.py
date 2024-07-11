@@ -23,6 +23,7 @@ urlpatterns = [
     path('home/', home,name='home'),
     path('all_recipes/', show_all_recipes, name='all_recipes'),
     path('add/', add_recipe, name='add_recipe'),
+    path('recipe/<int:id>', view_recipe, name='view_recipe'),
 ]
 
 # For image visible
