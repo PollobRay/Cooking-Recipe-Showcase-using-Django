@@ -30,7 +30,6 @@ def add_recipe(request):
             recipe_image = recipe_image,
         )
         recipe.save()
-
         return redirect('all_recipes')
     return render(request,'add_recipe.html')
 
