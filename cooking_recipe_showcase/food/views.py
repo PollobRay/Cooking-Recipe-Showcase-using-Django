@@ -4,6 +4,9 @@ from .models import *
 
 # Create your views here.
 
+def home(request):
+    return render(request,"home.html")
+
 def show_all_recipes(request):
     queryset = Recipe.objects.all()
     return render(request,'all_recipes.html', context={'recipes':queryset})

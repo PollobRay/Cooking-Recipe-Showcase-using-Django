@@ -4,12 +4,42 @@
 {% block myblock %}
 
     
+  <section class="ftco-section" id="project-section">
+    <div class="container">
+      <div class="row justify-content-center mb-5 pb-5">
+        <div class="col-7 heading-section text-center ftco-animate">
+          <h1 class="big big-2">All Cooking Receipes</h1>
+        </div>
+        <div class="bg-black" style="width: 100%; height: 4px;"></div>
+      </div>
+      <div class="row d-flex">
+      {% for recipe in recipes %}
+        <div class="col-md-4 card m-3 shadow">
+          <div class="blog-entry justify-content-end">
+            <img class="card-img-top" src="/media/{{recipe.recipe_image}}" style="height:200px" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{recipe.recipe_name}}</h5>
+              <a href="#" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %} 
+      </div>
+    </div>
+  </section> 
+
+
+{% endblock  %}
+<!-- end block -->
+
+<!--
     <div class="container mt-5">
+        <h2 class="text-center">All Cooking Recipes</h2>
         <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Receipe Name</th>
+                <th scope="col">Receipe</th>
                 <th scope="col">Recipe Description</th>
                 <th scope="col">Recipe Image</th>
               </tr>
@@ -27,5 +57,6 @@
           </table>
     </div>
 
-{% endblock  %}
-<!-- end block -->
+
+
+-->

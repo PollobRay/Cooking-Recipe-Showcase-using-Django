@@ -19,8 +19,9 @@ from django.urls import path
 from food.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('recipes/', show_all_recipes, name='recipes'),
+    path('', home,name='home'),
+    path('home/', home,name='home'),
+    path('all_recipes/', show_all_recipes, name='all_recipes'),
     path('add/', add_recipe, name='add_recipe'),
 ]
 

@@ -1,0 +1,21 @@
+{% extends "master\template.html" %}
+
+<!-- start block -->
+{% block myblock %}
+
+<div class="container">
+    <div class="card mb-3 max-auto">
+        <img class="card-img-top" src="/media/image/banner.png" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Cooking Recipe Showcase</h5>
+          <p class="card-text">It is a Showcase of cooking recipes, with complete procedure for cooking.</p>
+        </div>
+        <div class="d-grid gap-2 m-3">
+            <a class="btn btn-outline-success" type="button" href="{% url 'all_recipes' %}">Browse All Recipes</a>
+          </div>
+      </div>
+</div>
+
+
+{% endblock  %}
+<!-- end block -->
