@@ -28,5 +28,21 @@ def add_recipe(request):
         )
         recipe.save()
 
-        return redirect('recipes')
+        return redirect('all_recipes')
     return render(request,'add_recipe.html')
+
+def update_recipe(request,id):
+    recipe = Recipe.objects.get(pk=id)
+
+    if request.method == 'POST':
+        recipe.recipe_name = request.POST.get("recipe_name")
+        recipe.recipe_description = request.POST.get("recipe_description")
+        recipe_image = request.FILES.get('recipe_image')
+        
+        if recipe_image:
+            recipe.recipe_image=recipe_image
+
+        recipe.save()
+        return redirect('all_recipes') 
+    return render(request,'update_recipe.html', context={'recipe':recipe})
+

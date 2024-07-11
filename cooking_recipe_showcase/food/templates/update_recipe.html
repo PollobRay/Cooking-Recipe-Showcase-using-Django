@@ -5,22 +5,22 @@
 
     
     <div class="container mt-5">
-            <form method="post" action=" {% url 'add_recipe' %}" enctype="multipart/form-data" class="col-10 max-auto p-3 m-5 card shadow-lg">
+            <form method="post" action=" {% url 'update_recipe' recipe.id %}" enctype="multipart/form-data" class="col-10 max-auto p-3 m-5 card shadow-lg">
                 {% csrf_token %}   <!-- enctype="multipart/form-data"   must for uploading image -->
-                <h2 class="text-center text-success">Add New Receipe on Showcase</h2>
+                <h2 class="text-center text-success">Update a Receipe on Showcase</h2>
                 <div class="form-group m-2">
                   <label for="name">Receipe Name</label>
-                  <input type="text" class="form-control" id="name" name="recipe_name" aria-describedby="emailHelp" placeholder="Enter name">
+                  <input type="text" class="form-control" id="name" name="recipe_name" aria-describedby="emailHelp" value="{{recipe.recipe_name}}">
                 </div>
                 <div class="form-group m-2">
                   <label for="description">Receipe Description</label>
-                  <textarea class="form-control" id="description" name="recipe_description" placeholder="Enter Description"></textarea>
+                  <textarea class="form-control" id="description" name="recipe_description" >{{recipe.recipe_description}}</textarea>
                 </div>
                 <div class="form-group m-2">
                     <label for="image">Image</label>
                     <input type="file" class="form-control" id="image" name="recipe_image">
                 </div>
-                <button type="submit" class="btn btn-success m-2">Add Receipe</button>
+                <button type="submit" class="btn btn-success m-2">Update Receipe</button>
             </form>
     </div>
 
