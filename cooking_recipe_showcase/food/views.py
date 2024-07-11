@@ -13,6 +13,9 @@ def view_recipe(request,id):
 
 def show_all_recipes(request):
     queryset = Recipe.objects.all()
+
+    if request.GET.get('search'):
+        queryset = queryset.filter(recipe_name__icontains = request.GET.get('search'))
     return render(request,'all_recipes.html', context={'recipes':queryset})
 
 def add_recipe(request):
@@ -46,3 +49,7 @@ def update_recipe(request,id):
         return redirect('all_recipes') 
     return render(request,'update_recipe.html', context={'recipe':recipe})
 
+def delete_recipe(request,id):
+    recipe = Recipe.objects.get(pk=id)
+    recipe.delete()
+    return redirect('all_recipes')

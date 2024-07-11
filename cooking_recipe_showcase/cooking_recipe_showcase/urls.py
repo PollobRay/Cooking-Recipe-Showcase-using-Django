@@ -25,6 +25,7 @@ urlpatterns = [
     path('add/', add_recipe, name='add_recipe'),
     path('recipe/<int:id>', view_recipe, name='view_recipe'),
     path('update/<int:id>', update_recipe, name='update_recipe'),
+    path('delete/<int:id>', delete_recipe, name='delete_recipe'),
 ]
 
 # For image visible
