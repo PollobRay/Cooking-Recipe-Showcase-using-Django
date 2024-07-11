@@ -1,0 +1,28 @@
+{% extends "master\template.html" %}
+
+<!-- start block -->
+{% block myblock %}
+
+    
+    <div class="container mt-5">
+            <form method="post" action=" {% url 'add_recipe' %}" enctype="multipart/form-data" class="col-8 max-auto p-3 card shadow-lg">
+                {% csrf_token %}   <!-- enctype="multipart/form-data"   must for uploading image -->
+                <h2>Add New Cooking Receipe on Showcase</h2>
+                <div class="form-group">
+                  <label for="name">Receipe Name</label>
+                  <input type="text" class="form-control" id="name" name="recipe_name" aria-describedby="emailHelp" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                  <label for="description">Receipe Description</label>
+                  <textarea class="form-control" id="description" name="recipe_description" placeholder="Enter Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input type="file" class="form-control" id="image" name="recipe_image">
+                </div>
+                <button type="submit" class="btn btn-success">Add Receipe</button>
+            </form>
+    </div>
+
+{% endblock  %}
+<!-- end block -->
