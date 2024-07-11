@@ -5,7 +5,8 @@ from .models import *
 # Create your views here.
 
 def show_all_recipes(request):
-    return render(request,'all_recipes.html')
+    queryset = Recipe.objects.all()
+    return render(request,'all_recipes.html', context={'recipes':queryset})
 
 def add_recipe(request):
     if request.method == 'POST':
