@@ -38,6 +38,7 @@ def update_recipe(request,id):
     recipe = Recipe.objects.get(pk=id)
 
     if request.method == 'POST':
+        recipe.id=id
         recipe.recipe_name = request.POST.get("recipe_name")
         recipe.recipe_description = request.POST.get("recipe_description")
         recipe_image = request.FILES.get('recipe_image')
