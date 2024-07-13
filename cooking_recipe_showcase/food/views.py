@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from .models import *
+from django.contrib.auth.models import User 
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
@@ -53,3 +56,60 @@ def delete_recipe(request,id):
     recipe = Recipe.objects.get(pk=id)
     recipe.delete()
     return redirect('all_recipes')
+
+
+def user_register(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        user_name = request.POST.get('user_name')
+        password = request.POST.get('password')
+        re_password = request.POST.get('re_password')
+        check = request.POST.getlist('check')
+        #messages.success(request,user_name)
+
+        #check username is alreay exits or not
+        if User.objects.filter(username=user_name).exists():
+            messages.info(request,"User Name is Already Taken")
+        
+        elif password != re_password:
+            messages.info(request,"Two passwords are different")
+        
+        elif not check:
+            messages.info(request,"Check to Agree all statements")
+
+        else:
+            user = User.objects.create(
+                first_name = first_name,
+                last_name = last_name,
+                username = user_name,
+                password = password 
+            )
+            user.set_password(user.password)
+            user.save()
+
+            messages.info(request,"Registation Successful !!!")
+
+    return render(request,'register.html')
+
+def user_login(request):
+    if request.method == 'POST':
+        user_name = request.POST.get('user_name')
+        password = request.POST.get('password')
+
+        user = authenticate(username = user_name, password = password)
+
+        if user is None:
+            messages.error(request,"Username & Password are Incorrect")
+        else:
+            login(request,user) # create session
+            return redirect('home')
+
+    return render(request,'login.html')
+
+def user_logout(request):
+    if request.user.is_authenticated:
+        logout(request)
+        return redirect('home')
+    else:
+        return redirect('login')
