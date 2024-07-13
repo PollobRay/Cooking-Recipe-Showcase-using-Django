@@ -4,6 +4,7 @@ from .models import *
 from django.contrib.auth.models import User 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -21,6 +22,7 @@ def show_all_recipes(request):
         queryset = queryset.filter(recipe_name__icontains = request.GET.get('search'))
     return render(request,'all_recipes.html', context={'recipes':queryset})
 
+@login_required(login_url='login')
 def add_recipe(request):
     if request.method == 'POST':
         recipe_name = request.POST.get('recipe_name')
@@ -31,11 +33,13 @@ def add_recipe(request):
             recipe_name = recipe_name,
             recipe_description = recipe_description,
             recipe_image = recipe_image,
+            user_id = request.user.id       # indicate who is adding the recipe
         )
         recipe.save()
         return redirect('all_recipes')
     return render(request,'add_recipe.html')
 
+@login_required(login_url='login')
 def update_recipe(request,id):
     recipe = Recipe.objects.get(pk=id)
 
@@ -52,6 +56,7 @@ def update_recipe(request,id):
         return redirect('all_recipes') 
     return render(request,'update_recipe.html', context={'recipe':recipe})
 
+@login_required(login_url='login')
 def delete_recipe(request,id):
     recipe = Recipe.objects.get(pk=id)
     recipe.delete()
@@ -113,3 +118,30 @@ def user_logout(request):
         return redirect('home')
     else:
         return redirect('login')
+
+@login_required(login_url='login')
+def user_profile(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        password = request.POST.get('password')
+        re_password = request.POST.get('re_password')
+
+        user = User.objects.get(id = request.user.id)
+
+        #check username is alreay exits or not
+        if password != re_password:
+            messages.info(request,"Two passwords are different")
+        
+        else:
+            user.first_name = first_name
+            user.last_name = last_name
+            user.password = password
+            user.set_password(user.password)
+            user.save()
+
+            messages.info(request,"Information Updated !!!")
+
+            return redirect('profile')
+
+    return render(request, 'profile.html')
