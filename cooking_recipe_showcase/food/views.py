@@ -13,7 +13,8 @@ def home(request):
 
 def view_recipe(request,id):
     recipe = Recipe.objects.get(pk=id)
-    return render(request,'recipe.html', context={'recipe':recipe})
+    w_user = User.objects.get(id=recipe.user_id)
+    return render(request,'recipe.html', context={'recipe':recipe, 'w_user':w_user})
 
 def show_all_recipes(request):
     queryset = Recipe.objects.all()
@@ -36,6 +37,8 @@ def add_recipe(request):
             user_id = request.user.id       # indicate who is adding the recipe
         )
         recipe.save()
+        messages.error(request,"The recipe is Successfully Added !!!")
+
         return redirect('all_recipes')
     return render(request,'add_recipe.html')
 
@@ -43,23 +46,34 @@ def add_recipe(request):
 def update_recipe(request,id):
     recipe = Recipe.objects.get(pk=id)
 
-    if request.method == 'POST':
-        recipe.id=id
-        recipe.recipe_name = request.POST.get("recipe_name")
-        recipe.recipe_description = request.POST.get("recipe_description")
-        recipe_image = request.FILES.get('recipe_image')
-        
-        if recipe_image:
-            recipe.recipe_image=recipe_image
+    if recipe.user_id != request.user.id:
+        messages.error(request,"You can not update the recipe (only Author can update)")
+        return redirect('all_recipes')
+    else:
+        if request.method == 'POST':
+            recipe.id=id
+            recipe.recipe_name = request.POST.get("recipe_name")
+            recipe.recipe_description = request.POST.get("recipe_description")
+            recipe_image = request.FILES.get('recipe_image')
+            
+            if recipe_image:
+                recipe.recipe_image=recipe_image
 
-        recipe.save()
-        return redirect('all_recipes') 
+            recipe.save()
+            messages.error(request,"The recipe is Successfully Updated !!!")
+
+            return redirect('all_recipes') 
     return render(request,'update_recipe.html', context={'recipe':recipe})
 
 @login_required(login_url='login')
 def delete_recipe(request,id):
     recipe = Recipe.objects.get(pk=id)
-    recipe.delete()
+
+    if recipe.user_id != request.user.id:
+        messages.error(request,"You can not delete the recipe (only Author can delete)")
+    else:
+        recipe.delete()
+        messages.info(request,"The recipe is Successfully Deleted !!!")
     return redirect('all_recipes')
 
 
